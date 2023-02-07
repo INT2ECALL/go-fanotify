@@ -37,7 +37,7 @@ func main() {
 		unix.FAN_MARK_ADD|
 			unix.FAN_MARK_MOUNT,
 		unix.FAN_MODIFY|
-			unix.FAN_CLOSE_WRITE,
+			unix.FAN_CLOSE_WRITE|unix.FAN_ACCESS,
 		unix.AT_FDCWD,
 		mountpoint,
 	); err != nil {
@@ -71,7 +71,7 @@ func main() {
 
 		mTime := fInfo.ModTime()
 
-		if data.MatchMask(unix.FAN_CLOSE_WRITE) || data.MatchMask(unix.FAN_MODIFY) {
+		if data.MatchMask(unix.FAN_CLOSE_WRITE) || data.MatchMask(unix.FAN_MODIFY) || data.MatchMask(unix.FAN_ACCESS) {
 			return fmt.Sprintf("PID:%d %s - %v", data.GetPID(), path, mTime), nil
 		}
 
